@@ -1,0 +1,23 @@
+{% extends "@ContaoCore/Backend/be_page.html.twig" %}
+
+{% block headline %}
+    {{  title }}
+{% endblock %}
+
+{% block error %}{% endblock %}
+
+{% block main %}
+    <div class="tl_listing_container">
+        <p><strong>{{ 'Snelstart.ID'|trans({}, 'contao_default') }}</strong>: {{  snelstart_id }}</p>
+        <p><strong>{{ 'Snelstart.SyncDate'|trans({}, 'contao_default') }}</strong>: {{  snelstart_date }}</p>
+        <div><strong>{{ 'Snelstart.ErrorMessage'|trans({}, 'contao_default') }}</strong><br> {{  snelstart_error|nl2br|raw }}</div>
+        <div><strong>{{ 'Snelstart.DebugMessage'|trans({}, 'contao_default') }}</strong><br> {{  snelstart_debug|nl2br|raw }}</div>
+    </div>
+    <div class="tl_formbody_submit">
+        <div class="tl_submit_container">
+            {%  if not snelstart_id %}
+            <a href="{{  force_sync_url }}" class="button" title="{{ 'Snelstart.ForceSyncTitle'|trans({}, 'contao_default') }}">{{ 'Snelstart.ForceSync'|trans({}, 'contao_default') }}</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

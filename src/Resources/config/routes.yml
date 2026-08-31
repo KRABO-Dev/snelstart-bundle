@@ -1,0 +1,3 @@
+contao:
+  resource: '@SnelstartBundle/Controller'
+  type: annotation

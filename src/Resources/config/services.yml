@@ -1,0 +1,58 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  krabo.snelstart.factory:
+    class: Krabo\SnelstartBundle\Factory
+    arguments: ['%krabo.snelstart.client_key%', '%krabo.snelstart.primary_key%', '%krabo.snelstart.secondary_key%']
+  krabo.snelstart.btwhelper:
+    class: Krabo\SnelstartBundle\Helper\SnelstartBtw
+    arguments: [
+        '%krabo.snelstart.grootboek_omzet_hoog_nl%',
+        '%krabo.snelstart.grootboek_omzet_laag_nl%',
+        '%krabo.snelstart.grootboek_omzet_eu_standaard%',
+        '%krabo.snelstart.grootboek_omzet_eu_verlaagd_hoog%',
+        '%krabo.snelstart.grootboek_omzet_eu_verlaagd_laag%',
+        '%krabo.snelstart.grootboek_omzet_eu_super_verlaagd%',
+        '%krabo.snelstart.grootboek_omzet_eu_geen%',
+        '%krabo.snelstart.grootboek_omzet_wereld%']
+  krabo.snelstart.grootboek:
+    class: Krabo\SnelstartBundle\Snelstart\Grootboek
+    arguments: [
+        '@krabo.snelstart.factory'
+    ]
+  krabo.snelstart.kostenplaats:
+    class: Krabo\SnelstartBundle\Snelstart\Kostenplaats
+    arguments: [ '@krabo.snelstart.factory', '%krabo.snelstart.kostenplaats%' ]
+  krabo.snelstart.relatie:
+    class: Krabo\SnelstartBundle\Snelstart\Relatie
+    arguments: [ '@krabo.snelstart.factory' ]
+  krabo.snelstart.dagboek:
+    class: Krabo\SnelstartBundle\Snelstart\MemorialDagboek
+    arguments: [ '@krabo.snelstart.factory', '@krabo.snelstart.grootboek' ]
+  krabo.snelstart.isotope_order_sync:
+    class: Krabo\SnelstartBundle\Helper\IsotopeOrderSync
+    arguments: ['@database_connection', '@krabo.snelstart.factory', '@krabo.snelstart.grootboek', '@krabo.snelstart.relatie', '@krabo.snelstart.kostenplaats', '@krabo.snelstart.btwhelper']
+
+  Krabo\SnelstartBundle\Cron\Cron:
+    arguments:
+      - '@database_connection'
+      - '@krabo.snelstart.isotope_order_sync'
+      - '%krabo.snelstart.limit%'
+    tags:
+      - name: contao.cronjob
+        interval: '*/5 * * * *'
+        method: sync
+
+  Krabo\SnelstartBundle\Controller\CheckConnectionController:
+    arguments: ['@krabo.snelstart.factory', '@twig']
+  Krabo\SnelstartBundle\Controller\OrderStatusController:
+    arguments: [ '@krabo.snelstart.factory', '@twig', '@router' ]
+  Krabo\SnelstartBundle\Controller\IsotopeOrderSynController:
+    arguments: ['@krabo.snelstart.isotope_order_sync', '@router']
+  Krabo\SnelstartBundle\EventListener\ProductCollectionListener:
+    arguments: [ '@router', '@request_stack' ]
+  Krabo\SnelstartBundle\EventListener\BackendMenuListener:
+    arguments: ['@router', '@request_stack']

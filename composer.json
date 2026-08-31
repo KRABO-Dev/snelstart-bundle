@@ -1,0 +1,22 @@
+{
+  "name":"krabo/snelstart-bundle",
+  "description":"Koppel contao aan snelstart.",
+  "type": "contao-bundle",
+  "license":"LGPL-3.0-or-later",
+  "version": "1.6.0",
+  "require": {
+    "contao/core-bundle": "^4.9",
+    "symfony/config": "^4.4 || ^5.1",
+    "symfony/dependency-injection": "^4.4 || ^5.1",
+    "symfony/http-kernel": "^4.4 || ^5.1",
+    "iwd-nl/snelstart-php": "^2.0.4"
+  },
+  "extra": {
+    "contao-manager-plugin": "Krabo\\SnelstartBundle\\ContaoManager\\Plugin"
+  },
+  "autoload": {
+    "psr-4": {
+      "Krabo\\SnelstartBundle\\": "src/"
+    }
+  }
+}
