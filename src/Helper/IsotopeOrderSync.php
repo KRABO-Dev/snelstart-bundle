@@ -199,6 +199,7 @@ class IsotopeOrderSync
 
       return $verkoopBoeking;
     } catch (\Exception $ex) {
+      $order->snelstart_debug = $debug;
       $order->snelstart_sync_date = time();
       $order->snelstart_id = '';
       $order->snelstart_error_message = var_export($verkoopBoeking, true);
