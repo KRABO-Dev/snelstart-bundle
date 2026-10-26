@@ -81,6 +81,7 @@ class IsotopeOrderSync
    */
   public function syncOrder(Order $order, $abort = FALSE)
   {
+    $debug = '';
     try {
       $boekingsregels = [];
       $btwRegels = [];
@@ -166,7 +167,6 @@ class IsotopeOrderSync
         }
       }
 
-      $debug = '';
       foreach($verkoopBoeking->getBoekingsregels() as $boekingsregel) {
         /** @var \SnelstartPHP\Model\V2\Boekingsregel $boekingsregel */
         $debug .= $boekingsregel->getGrootboek()->getNummer() . ': ' . $boekingsregel->getOmschrijving() . ': EURO ' . $boekingsregel->getBedrag()->getAmount() . "\r\n";
