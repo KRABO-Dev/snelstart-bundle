@@ -40,7 +40,7 @@ $GLOBALS['TL_DCA']['tl_iso_product_collection']['fields']['snelstart_error_messa
     'readonly'        => true,
     'inputType'     => 'textarea',
     'eval'          => array('readonly' => TRUE, 'mandatory'=>false, 'tl_class'=>'w50 clr' ),
-    'sql'           => "TEXT NOT NULL default ''",
+    'sql'           => "LONGTEXT NOT NULL default ''",
 );
 $GLOBALS['TL_DCA']['tl_iso_product_collection']['fields']['snelstart_debug'] = array(
     'label'         => &$GLOBALS['TL_LANG']['tl_iso_product_collection']['snelstart_debug'],
